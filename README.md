@@ -1,6 +1,6 @@
 Create app_keys.py with
 
-
+```
 ttn_app_info = [
     dict(
         host="<app_router_url>",
@@ -11,4 +11,4 @@ ttn_app_info = [
 sms_info = dict(
     phone="+<target_phone>"
 )
-
+```
