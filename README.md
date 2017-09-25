@@ -6,6 +6,7 @@ apps = {
         ttn=dict(
             host="<ttn_app_router>",
             app_key="<ttn_app_key>",
+            secure=False
         ),
         sms={
             "<name>": "+<number>"

@@ -20,10 +20,12 @@ class Alarmer(object):
             username = name
             password = app['ttn']['app_key']
             host = app['ttn']['host']
+            secure = 'secure' in app['ttn'] and app['ttn']['secure']
             self._logger.debug("Initiating connection to {0} as {1}".format(host, username))
             self.mqtt_clients[username] = MQTTClient(host=host, client_id=username,
                                                      username=username, password=password,
-                                                     userdata=app, cert='ttn_cert.pem')
+                                                     userdata=app,
+                                                     cert='ttn_cert.pem' if secure else None)
             self.mqtt_clients[username].on_event = self.on_ttn
             self._logger.info("Activated {0}".format(username))
         self._initialised = True
