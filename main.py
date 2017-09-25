@@ -25,6 +25,7 @@ class Alarmer(object):
                                                      username=username, password=password,
                                                      userdata=app)
             self.mqtt_clients[username].on_event = self.on_ttn
+            self.mqtt_clients[username].tls_set('ttn_cert.pem')
             self._logger.info("Activated {0}".format(username))
         self._initialised = True
 
