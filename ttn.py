@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 
 
 class MQTTClient(object):
-    def __init__(self, host='localhost', client_id="", username=None, password=None, userdata=None):
+    def __init__(self, host='localhost', client_id="", username=None, password=None, userdata=None, cert=None):
         self._logger = getLogger('ttn.mqtt.{0!s}.{1!s}'.format(host, client_id))
         self._host = host
         self._client_id = client_id
@@ -24,6 +24,8 @@ class MQTTClient(object):
         self._mqtt.on_message = self._on_message
         self._mqtt.on_publish = self._on_publish
         self._mqtt.on_subscribe = self._on_subscribe
+        if cert:
+            self._mqtt.tls_set(cert)
         self._mqtt.loop_start()
         self.connect()
 
