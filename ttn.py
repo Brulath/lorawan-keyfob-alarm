@@ -4,15 +4,16 @@ import paho.mqtt.client as mqtt
 
 
 class MQTTClient(object):
-    def __init__(self, host='localhost', client_id="", username=None, password=None):
+    def __init__(self, host='localhost', client_id="", username=None, password=None, userdata=None):
         self._logger = getLogger('ttn.mqtt.{0!s}.{1!s}'.format(host, client_id))
         self._host = host
         self._client_id = client_id
         self._connected = False
         self.on_event = lambda x: x
 
+        userdata = self if userdata is None else userdata
         self._mqtt = mqtt.Client(client_id=client_id, clean_session=True,
-                                 userdata=self, protocol=mqtt.MQTTv311, transport="tcp")
+                                 userdata=userdata, protocol=mqtt.MQTTv311, transport="tcp")
         self._username = username
         self._password = password
         if self._username is not None and self._password is not None:
@@ -62,7 +63,7 @@ class MQTTClient(object):
 
     def _on_message(self, client, userdata, msg):
         self._logger.debug("MSG(%s): %s", msg.topic, msg.payload)
-        self.on_event(msg)
+        self.on_event(msg, userdata)
 
     def _on_publish(self, client, userdata, mid):
         # self._logger.debug("Publish finished")
@@ -73,18 +74,3 @@ class MQTTClient(object):
 
     def __repr__(self):
         return "{0!s}.{1!s}".format(self._host, self._client_id)
-
-
-class MQTTManager(object):
-    clients = {}
-
-    def __init__(self, ttn_app_info, callback):
-        self._logger = getLogger("ttn.mqtt.manager")
-        for app in ttn_app_info:
-            username = app['username']
-            password = app['password']
-            host = app['host']
-            self._logger.debug("Initiating connection to {0} as {1}".format(host, username))
-            self.clients[username] = MQTTClient(host=host, client_id=username, username=username, password=password)
-            self.clients[username].on_event = callback
-            self._logger.info("Activated {0}".format(username))

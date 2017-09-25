@@ -1,14 +1,19 @@
 Create app_keys.py with
 
 ```
-ttn_app_info = [
-    dict(
-        host="<app_router_url>",
-        username="<app_name>",
-        password="<app_key>"
+apps = {
+    "<ttn_app_name>": dict(
+        ttn=dict(
+            host="<ttn_app_router>",
+            app_key="<ttn_app_key>",
+        ),
+        sms={
+            "<name>": "+<number>"
+        },
+        telegram={
+
+        }
     ),
-]
-sms_info = dict(
-    phone="+<target_phone>"
-)
+}
+
 ```
