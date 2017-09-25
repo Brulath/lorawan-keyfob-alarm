@@ -11,9 +11,10 @@ apps = {
             "<name>": "+<number>"
         },
         telegram={
-
+            "<name>": "<chat_id (get with /id command to bot)>"
         }
     ),
 }
+telegram_token = "<bot_token>"
 
 ```
