@@ -7,10 +7,6 @@ from app_keys import apps
 import boto3
 
 
-sns = None
-logger = None
-
-
 class Alarmer(object):
     mqtt_clients = {}
 
@@ -48,7 +44,6 @@ class Alarmer(object):
 
 
 def run():
-    global sns, logger
     logging.basicConfig()
     logger = logging.getLogger('lka')
     logging.getLogger('').setLevel(logging.DEBUG)
